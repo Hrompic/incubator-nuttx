@@ -31,7 +31,6 @@
 #endif
 
 #include <stm32.h>
-
 /****************************************************************************
  * Pre-processor Definitions
  ****************************************************************************/
@@ -265,12 +264,12 @@
  * but are normally-high GPIOs.
  */
 
-#define GPIO_I2C1_SCL    GPIO_I2C1_SCL_2
-#define GPIO_I2C1_SDA    GPIO_I2C1_SDA_2
+#define GPIO_I2C1_SCL    GPIO_I2C1_SCL_1
+#define GPIO_I2C1_SDA    GPIO_I2C1_SDA_1
 #define GPIO_I2C1_SCL_GPIO \
-   (GPIO_OUTPUT|GPIO_OPENDRAIN|GPIO_SPEED_50MHz|GPIO_OUTPUT_SET|GPIO_PORTB|GPIO_PIN8)
+   (GPIO_OUTPUT|GPIO_OPENDRAIN|GPIO_SPEED_50MHz|GPIO_OUTPUT_SET|GPIO_PORTB|GPIO_PIN6)
 #define GPIO_I2C1_SDA_GPIO \
-   (GPIO_OUTPUT|GPIO_OPENDRAIN|GPIO_SPEED_50MHz|GPIO_OUTPUT_SET|GPIO_PORTB|GPIO_PIN9)
+   (GPIO_OUTPUT|GPIO_OPENDRAIN|GPIO_SPEED_50MHz|GPIO_OUTPUT_SET|GPIO_PORTB|GPIO_PIN7)
 
 #define GPIO_I2C2_SCL    GPIO_I2C2_SCL_1
 #define GPIO_I2C2_SDA    GPIO_I2C2_SDA_1
@@ -316,6 +315,25 @@
 /* LED bits for use with board_userled_all() */
 
 #define BOARD_LED1_BIT    (1 << BOARD_LED1)
+
+/* Pins config to use with HC-SR04 sensor */
+#define GPIO_HCSR04_INT   (GPIO_INPUT|GPIO_FLOAT|GPIO_PORTA|GPIO_PIN0)
+#define GPIO_HCSR04_TRIG  (GPIO_OUTPUT|GPIO_SPEED_50MHz|\
+                           GPIO_OUTPUT_CLEAR|GPIO_PORTA|GPIO_PIN1)
+
+#define BOARD_HCSR04_GPIO_INT  GPIO_HCSR04_INT
+#define BOARD_HCSR04_GPIO_TRIG GPIO_HCSR04_TRIG
+#define BOARD_HCSR04_FRTIMER   1    /* TIM1 as free running timer */
+
+/* DHTxx pin configuration */
+#define GPIO_DHTXX_PIN          (GPIO_PORTB|GPIO_PIN1)
+#define GPIO_DHTXX_PIN_OUTPUT   (GPIO_OUTPUT|GPIO_FLOAT|GPIO_SPEED_100MHz|GPIO_DHTXX_PIN)
+#define GPIO_DHTXX_PIN_INPUT    (GPIO_INPUT|GPIO_FLOAT|GPIO_DHTXX_PIN)
+
+#define BOARD_DHTXX_GPIO_INPUT   GPIO_DHTXX_PIN_INPUT
+#define BOARD_DHTXX_GPIO_OUTPUT  GPIO_DHTXX_PIN_OUTPUT
+#define BOARD_DHTXX_FRTIMER      1  /* Free-run timer 1 */
+
 
 /* Buttons
  *

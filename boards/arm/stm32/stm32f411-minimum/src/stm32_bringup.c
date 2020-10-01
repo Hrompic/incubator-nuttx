@@ -33,6 +33,10 @@
 #  include "stm32_usbhost.h"
 #endif
 
+#ifdef CONFIG_SENSORS_DHTXX
+#include "stm32_dhtxx.h"
+#endif
+
 #include "stm32f411-minimum.h"
 
 /****************************************************************************
@@ -52,6 +56,46 @@
  *     Called from the NSH library
  *
  ****************************************************************************/
+#if defined(CONFIG_I2C) && defined(CONFIG_SYSTEM_I2CTOOL)
+static void stm32_i2c_register(int bus)
+{
+  struct i2c_master_s *i2c;
+  int ret;
+
+  i2c = stm32_i2cbus_initialize(bus);
+  if (i2c == NULL)
+    {
+      syslog(LOG_ERR, "ERROR: Failed to get I2C%d interface\n", bus);
+    }
+  else
+    {
+      ret = i2c_register(i2c, bus);
+      if (ret < 0)
+        {
+          syslog(LOG_ERR, "ERROR: Failed to register I2C%d driver: %d\n",
+                 bus, ret);
+          stm32_i2cbus_uninitialize(i2c);
+        }
+    }
+}
+#endif
+
+
+#if defined(CONFIG_I2C) && defined(CONFIG_SYSTEM_I2CTOOL)
+static void stm32_i2ctool(void)
+{
+#ifdef CONFIG_STM32_I2C1
+  stm32_i2c_register(1);
+#endif
+#ifdef CONFIG_STM32_I2C2
+  stm32_i2c_register(2);
+#endif
+#ifdef CONFIG_STM32_I2C3
+  stm32_i2c_register(3);
+#endif
+}
+#endif
+
 
 int stm32_bringup(void)
 {
@@ -70,6 +114,15 @@ int stm32_bringup(void)
     }
 #endif
 
+#ifdef CONFIG_SENSORS_DHTXX
+  ret = board_dhtxx_initialize(0);
+  if (ret < 0)
+    {
+      syslog(LOG_ERR, "ERROR: stm32_dhtxx_initialize() failed: %d\n", ret);
+    }
+#endif
+
+
 #ifdef CONFIG_FS_PROCFS
   /* Mount the procfs file system */
 
@@ -79,6 +132,10 @@ int stm32_bringup(void)
       ferr("ERROR: Failed to mount procfs at %s: %d\n",
            STM32_PROCFS_MOUNTPOINT, ret);
     }
+#endif
+
+#if defined(CONFIG_I2C) && defined(CONFIG_SYSTEM_I2CTOOL)
+  stm32_i2ctool();
 #endif
 
   return ret;
