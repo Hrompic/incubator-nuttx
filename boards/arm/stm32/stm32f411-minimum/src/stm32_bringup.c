@@ -36,6 +36,10 @@
 #ifdef CONFIG_SENSORS_DHTXX
 #include "stm32_dhtxx.h"
 #endif
+#ifdef CONFIG_SENSORS_HCSR04
+#include "stm32_hcsr04.h"
+#endif
+
 
 #include "stm32f411-minimum.h"
 
@@ -114,7 +118,7 @@ int stm32_bringup(void)
     }
 #endif
 
-#ifdef CONFIG_SENSORS_DHTXX
+#if 0//def CONFIG_SENSORS_DHTXX
   ret = board_dhtxx_initialize(0);
   if (ret < 0)
     {
@@ -122,6 +126,13 @@ int stm32_bringup(void)
     }
 #endif
 
+#ifdef CONFIG_SENSORS_HCSR04
+   ret = board_hcsr04_initialize(0);
+   if (ret < 0)
+   {
+       syslog(LOG_ERR, "ERROR: stm32_hcsr04_initialize() failed: %d\n", ret);
+   }
+#endif  
 
 #ifdef CONFIG_FS_PROCFS
   /* Mount the procfs file system */
