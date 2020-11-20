@@ -118,7 +118,7 @@ int stm32_bringup(void)
     }
 #endif
 
-#if 0//def CONFIG_SENSORS_DHTXX
+#ifdef CONFIG_SENSORS_DHTXX
   ret = board_dhtxx_initialize(0);
   if (ret < 0)
     {
@@ -126,7 +126,7 @@ int stm32_bringup(void)
     }
 #endif
 
-#ifdef CONFIG_SENSORS_HCSR04
+#ifndef CONFIG_SENSORS_HCSR04
    ret = board_hcsr04_initialize(0);
    if (ret < 0)
    {

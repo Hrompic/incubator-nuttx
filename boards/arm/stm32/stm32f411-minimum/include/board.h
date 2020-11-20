@@ -317,13 +317,13 @@
 #define BOARD_LED1_BIT    (1 << BOARD_LED1)
 
 /* Pins config to use with HC-SR04 sensor */
-#define GPIO_HCSR04_INT   (GPIO_INPUT|GPIO_FLOAT|GPIO_PORTB|GPIO_PIN1)
-#define GPIO_HCSR04_TRIG  (GPIO_OUTPUT|GPIO_SPEED_50MHz|\
-                           GPIO_OUTPUT_CLEAR|GPIO_PORTB|GPIO_PIN2)
+#define GPIO_HCSR04_INT   (GPIO_INPUT|GPIO_FLOAT|GPIO_PORTB|GPIO_PIN0)
+#define GPIO_HCSR04_TRIG  (GPIO_OUTPUT|GPIO_SPEED_100MHz|\
+                           GPIO_OUTPUT_CLEAR|GPIO_PORTB|GPIO_PIN1)
 
 #define BOARD_HCSR04_GPIO_INT  GPIO_HCSR04_INT
 #define BOARD_HCSR04_GPIO_TRIG GPIO_HCSR04_TRIG
-#define BOARD_HCSR04_FRTIMER   1    /* TIM2 as free running timer */
+#define BOARD_HCSR04_FRTIMER   3    /* TIM3 as free running timer */
 
 /* DHTxx pin configuration */
 #define GPIO_DHTXX_PIN          (GPIO_PORTB|GPIO_PIN1)
@@ -332,7 +332,7 @@
 
 #define BOARD_DHTXX_GPIO_INPUT   GPIO_DHTXX_PIN_INPUT
 #define BOARD_DHTXX_GPIO_OUTPUT  GPIO_DHTXX_PIN_OUTPUT
-#define BOARD_DHTXX_FRTIMER      1  /* Free-run timer 1 */
+#define BOARD_DHTXX_FRTIMER      2  /* Free-run timer 1 */
 
 
 /* Buttons
